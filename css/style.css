@@ -301,6 +301,7 @@ a.page-numbers:focus,
 .card-terms-item:not(:last-child)::after {
 	content: '-';
 	margin-right: 0.5rem;
+	margin-left: 0.5rem;
 }
 
 .card-terms-link {

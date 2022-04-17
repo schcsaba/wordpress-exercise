@@ -3,7 +3,7 @@
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
 
-function crb_attach_theme_options() {
+function cr_attach_theme_options() {
 	Container::make( 'theme_options', __( 'Options du thème', 'cefimrecettes' ) )
 	         ->add_fields( [
 		         Field::make( 'checkbox',
@@ -19,5 +19,13 @@ function crb_attach_theme_options() {
 				              'value' => true
 			              ]
 		              ] )
+	         ] );
+	Container::make( 'post_meta', __( 'Autres données', 'cefimrecettes' ) )
+	         ->where( 'post_type', '=', 'post' )
+	         ->add_fields( [
+		         Field::make( 'image',
+			         'cr_featured_image',
+			         __( 'Image mis en avant', 'cefimrecettes' ) )
+			         ->set_required( true )
 	         ] );
 }
