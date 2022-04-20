@@ -7,6 +7,7 @@ function cr_setup_theme() {
 	add_image_size( 'logo', 120, 50, true );
 	add_image_size( 'card-illustration', 320, 480, true );
 	add_image_size( 'post-header-img', 1020, 680, true );
+	add_image_size( 'recipe-illustration', 485, 600, true );
 
 	register_nav_menus( [
 		'main-nav'   => __( 'Navigation principale', 'cefimrecettes' ),
