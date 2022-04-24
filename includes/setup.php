@@ -18,7 +18,7 @@ function cr_setup_theme() {
 
 function cr_add_link_atts( $atts, $item ) {
 	$atts['class'] = 'menu-link';
-	if ( in_array( 'current_page_item', $item->classes ) ) {
+	if ( in_array( 'current_page_item', $item->classes ) || in_array( 'current-menu-item', $item->classes ) ) {
 		$atts['class'] = 'menu-link active';
 	}
 
@@ -49,4 +49,14 @@ function cr_gutenberg_blocks( $block_types, $post ) {
 	}
 
 	return $allowed;
+}
+
+function set_posts_per_page( $query ) {
+	global $wp_the_query;
+
+	if ( ( ! is_admin() ) && ( $query === $wp_the_query ) && ( $query->is_search() || $query->is_post_type_archive( 'recette' ) ) ) {
+		$query->set( 'posts_per_page', 12 );
+	}
+
+	return $query;
 }

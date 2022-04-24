@@ -2,10 +2,10 @@
 
 function cr_recipe_cpt() {
 	$labels = [
-		'name'                  => _x( 'Recettes', 'Post type general name', 'cefimrecettes' ),
-		'singular_name'         => _x( 'Recette', 'Post type singular name', 'cefimrecettes' ),
-		'menu_name'             => _x( 'Recettes', 'Admin Menu text', 'cefimrecettes' ),
-		'name_admin_bar'        => _x( 'Recette', 'Add New on Toolbar', 'cefimrecettes' ),
+		'name'                  => _x( 'Mes recettes', 'Post type general name', 'cefimrecettes' ),
+		'singular_name'         => _x( 'Ma recette', 'Post type singular name', 'cefimrecettes' ),
+		'menu_name'             => _x( 'Mes recettes', 'Admin Menu text', 'cefimrecettes' ),
+		'name_admin_bar'        => _x( 'Ma recette', 'Add New on Toolbar', 'cefimrecettes' ),
 		'add_new'               => __( 'Ajouter une nouvelle', 'cefimrecettes' ),
 		'add_new_item'          => __( 'Ajouter une nouvelle recette', 'cefimrecettes' ),
 		'new_item'              => __( 'Nouvelle recette', 'cefimrecettes' ),

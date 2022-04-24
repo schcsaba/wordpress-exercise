@@ -26,13 +26,20 @@ get_header(); ?>
                     <h1 class="recipe-title"><?php
 						the_title(); ?></h1>
                     <ul class="recipe-meta-list">
+
                         <li class="recipe-meta-item quantity"><?= carbon_get_post_meta( get_the_ID(),
 								'cr_number_of_portions' ) ?> portion<?php
 							echo carbon_get_post_meta( get_the_ID(),
 								'cr_number_of_portions' ) < 2 ? '' : 's' ?></li>
                         <li class="recipe-meta-item duration"><?php
+							if ( intval( date_format( date_create( carbon_get_the_post_meta( 'cr_preparation_time' ) ),
+									'H' ) ) === 0 ) {
+								$format = 'i \m\i\n';
+							} else {
+								$format = 'G\hi';
+							}
 							echo date_format( date_create( carbon_get_the_post_meta( 'cr_preparation_time' ) ),
-								'G\hi' ); ?></li>
+								$format ); ?></li>
                     </ul>
                     <ul class="recipe-terms-list">
 						<?php
@@ -110,9 +117,16 @@ get_header(); ?>
                     <h3 class="card-title"><?= get_post( $recetteliee['cr_recette_liee'][0]['id'] )->post_title ?></h3>
                     <ul class="card-meta-list">
                         <li class="card-meta-item"><?php
+							if ( intval( date_format( date_create( carbon_get_post_meta( $recetteliee['cr_recette_liee'][0]['id'],
+									'cr_preparation_time' ) ),
+									'H' ) ) === 0 ) {
+								$format = 'i \m\i\n';
+							} else {
+								$format = 'G\hi';
+							}
 							echo date_format( date_create( carbon_get_post_meta( $recetteliee['cr_recette_liee'][0]['id'],
 								'cr_preparation_time' ) ),
-								'G\hi' ); ?></li>
+								$format ); ?></li>
                         <li class="card-meta-item"><?=
 							carbon_get_post_meta( $recetteliee['cr_recette_liee'][0]['id'],
 								'cr_number_of_portions' ); ?>
@@ -124,14 +138,12 @@ get_header(); ?>
                 </article>
                 </div>
                 </div>
-                </footer>
-				<?php
+                </footer><?php
 			}
 		}
 		}
 		} else { ?>
-            <p>Cette recette n'existe pas.</p>
-			<?php
+            <p>Cette recette n'existe pas.</p><?php
 		} ?>
 </main>
 
