@@ -2,30 +2,24 @@
 
 get_header(); ?>
 <main class="main-content">
-    <div class="container">
-        <h1>
+	<div class="container">
+		<h1>
 			<?php
-			$title = carbon_get_theme_option( 'cr_recipes_title' );
-			if ( isset( $title ) && $title !== '' ) {
-				echo $title;
-			} else {
-				$pt = get_post_type_object( get_post_type() );
-				echo $pt->labels->name;
-			}
+			echo get_queried_object()->name;
 			?>
-        </h1>
+		</h1>
 		<?php
 		if ( have_posts() ) { ?>
-            <div class="blog-grid">
+			<div class="blog-grid">
 				<?php
 				while ( have_posts() ) {
 					the_post(); ?>
-                    <article class="card">
+					<article class="card">
 						<?= wp_get_attachment_image( carbon_get_the_post_meta( 'cr_recipe_featured_image1' ),
 							'card-illustration',
 							false,
 							[ 'class' => 'card-illustration' ] ) ?>
-                        <ul class="card-terms-list">
+						<ul class="card-terms-list">
 							<?php
 							$terms = get_the_terms( get_the_ID(), 'characteristic' );
 							if ( $terms ) {
@@ -38,11 +32,11 @@ get_header(); ?>
 								}
 							}
 							?>
-                        </ul>
-                        <h3 class="card-title"><?php
+						</ul>
+						<h3 class="card-title"><?php
 							the_title(); ?></h3>
-                        <ul class="card-meta-list">
-                            <li class="card-meta-item"><?php
+						<ul class="card-meta-list">
+							<li class="card-meta-item"><?php
 								if ( intval( date_format( date_create( carbon_get_the_post_meta( 'cr_preparation_time' ) ),
 										'H' ) ) === 0 ) {
 									$format = 'i \m\i\n';
@@ -51,21 +45,21 @@ get_header(); ?>
 								}
 								echo date_format( date_create( carbon_get_the_post_meta( 'cr_preparation_time' ) ),
 									$format ); ?></li>
-                            <li class="card-meta-item"><?= carbon_get_post_meta( get_the_ID(),
+							<li class="card-meta-item"><?= carbon_get_post_meta( get_the_ID(),
 									'cr_number_of_portions' ) ?> portion<?php
 								echo carbon_get_post_meta( get_the_ID(),
 									'cr_number_of_portions' ) < 2 ? '' : 's' ?></li>
-                        </ul>
-                        <a href="<?php
+						</ul>
+						<a href="<?php
 						the_permalink() ?>" class="card-link">Voir la recette</a>
-                    </article>
-				<?php
+					</article>
+					<?php
 				} ?>
-            </div>
+			</div>
 			<?php
 			cr_number_pagination();
 		} ?>
-    </div>
+	</div>
 </main>
 
 <?php

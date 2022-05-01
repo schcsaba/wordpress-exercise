@@ -5,7 +5,7 @@ use Carbon_Fields\Field;
 
 function cr_attach_theme_options() {
 	Container::make( 'theme_options', __( 'Options du thème', 'cefimrecettes' ) )
-	         ->add_fields( [
+	         ->add_tab( __( 'Identité', 'cefimrecettes' ), [
 		         Field::make( 'checkbox',
 			         'cr_show_logo',
 			         __( 'Afficher le logo au lieu du nom du site', 'cefimrecettes' ) )
@@ -19,6 +19,19 @@ function cr_attach_theme_options() {
 				              'value' => true
 			              ]
 		              ] )
+	         ] )
+	         ->add_tab( __( 'Liste des recettes', 'cefimrecettes' ), [
+		         Field::make( 'text',
+			         'cr_recipes_title',
+			         __( 'Le titre de la page de la liste des recettes', 'cefimrecettes' ) )
+	         ] )
+	         ->add_tab( __( 'Page 404', 'cefimrecettes' ), [
+		         Field::make( 'text',
+			         'cr_404_title',
+			         __( 'Le titre de la page 404', 'cefimrecettes' ) ),
+		         Field::make( 'textarea',
+			         'cr_404_content',
+			         __( 'Le contenu de la page 404', 'cefimrecettes' ) )
 	         ] );
 }
 

@@ -44,13 +44,15 @@ get_header(); ?>
                     <ul class="recipe-terms-list">
 						<?php
 						$terms = get_the_terms( get_the_ID(), 'characteristic' );
-						foreach ( $terms as $term ) {
-							$term_link = get_term_link( $term, 'characteristic' );
-							if ( is_wp_error( $term_link ) ) {
-								continue;
-							}
-							echo '<li class="recipe-terms-item"><a href="' . $term_link . '" class="recipe-terms-link">' . $term->name . '</a></li>';
-						}
+                        if ($terms) {
+	                        foreach ( $terms as $term ) {
+		                        $term_link = get_term_link( $term, 'characteristic' );
+		                        if ( is_wp_error( $term_link ) ) {
+			                        continue;
+		                        }
+		                        echo '<li class="recipe-terms-item"><a href="' . $term_link . '" class="recipe-terms-link">' . $term->name . '</a></li>';
+	                        }
+                        }
 						?>
                     </ul>
                     <div class="recipe-ingredients-content">
