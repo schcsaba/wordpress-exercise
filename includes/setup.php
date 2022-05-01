@@ -51,7 +51,7 @@ function cr_gutenberg_blocks( $block_types, $post ) {
 	return $allowed;
 }
 
-function set_posts_per_page( $query ) {
+function cr_set_posts_per_page( $query ) {
 	global $wp_the_query;
 
 	if ( ( ! is_admin() ) && ( $query === $wp_the_query ) && ( $query->is_search() || $query->is_post_type_archive( 'recette' ) ) ) {

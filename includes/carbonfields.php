@@ -4,6 +4,31 @@ use Carbon_Fields\Container;
 use Carbon_Fields\Field;
 
 function cr_attach_theme_options() {
+	$cr_generate_options = function(): array {
+		$options = [
+			get_post_type_archive_link( 'recette' ) => 'Recettes',
+			get_post_type_archive_link( 'post' )    => 'Articles'
+		];
+		$posts   = get_posts( [ 'numberposts' => - 1, 'fields' => 'ids' ] );
+		foreach ( $posts as $post ) {
+			$options += [ get_permalink( $post ) => 'Article : ' . get_the_title( $post ) ];
+		}
+		$pages = get_pages();
+		foreach ( $pages as $page ) {
+			$options += [ get_permalink( $page ) => 'Page : ' . get_the_title( $page ) ];
+		}
+		$categories = get_terms( 'category', [ 'fields' => 'ids' ] );
+		foreach ( $categories as $category ) {
+			$options += [ get_category_link( $category ) => 'Catégorie : ' . get_cat_name( $category ) ];
+		}
+		$characteristics = get_terms( 'characteristic', [ 'fields' => 'ids' ] );
+		foreach ( $characteristics as $characteristic ) {
+			$options += [ get_category_link( $characteristic ) => 'Caractéristique : ' . get_term( $characteristic )->name ];
+		}
+
+		return $options;
+	};
+
 	Container::make( 'theme_options', __( 'Options du thème', 'cefimrecettes' ) )
 	         ->add_tab( __( 'Identité', 'cefimrecettes' ), [
 		         Field::make( 'checkbox',
@@ -19,6 +44,21 @@ function cr_attach_theme_options() {
 				              'value' => true
 			              ]
 		              ] )
+	         ] )
+	         ->add_tab( __( 'Page d\'accueil', 'cefimrecettes' ), [
+		         Field::make( 'text',
+			         'cr_fp_title',
+			         __( 'Le titre de la page d\'accueil', 'cefimrecettes' ) ),
+		         Field::make( 'textarea',
+			         'cr_fp_message',
+			         __( 'Message court sur la page d\'accueil', 'cefimrecettes' ) ),
+		         Field::make( 'select',
+			         'cr_fp_btn_link',
+			         __( 'Cible du bouton de la page d\'accueil', 'cefimrecettes' ) )
+		              ->set_options( $cr_generate_options ),
+		         Field::make( 'text',
+			         'cr_fp_button_text',
+			         __( 'Le texte du bouton', 'cefimrecettes' ) )
 	         ] )
 	         ->add_tab( __( 'Liste des recettes', 'cefimrecettes' ), [
 		         Field::make( 'text',
