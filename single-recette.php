@@ -18,7 +18,7 @@ get_header(); ?>
                 </div>
                 <div class="recipe-header-img">
 					<?= wp_get_attachment_image( carbon_get_the_post_meta( 'cr_recipe_featured_image2' ),
-						'recipe-illustration',
+						'recipe-illustration-small',
 						false,
 						[ 'class' => 'recipe-illustration' ] ) ?>
                 </div>

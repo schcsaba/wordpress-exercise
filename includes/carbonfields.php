@@ -4,7 +4,7 @@ use Carbon_Fields\Container;
 use Carbon_Fields\Field;
 
 function cr_attach_theme_options() {
-	$cr_generate_options = function(): array {
+	$cr_generate_options = function (): array {
 		$options = [
 			get_post_type_archive_link( 'recette' ) => 'Recettes',
 			get_post_type_archive_link( 'post' )    => 'Articles'
@@ -12,6 +12,10 @@ function cr_attach_theme_options() {
 		$posts   = get_posts( [ 'numberposts' => - 1, 'fields' => 'ids' ] );
 		foreach ( $posts as $post ) {
 			$options += [ get_permalink( $post ) => 'Article : ' . get_the_title( $post ) ];
+		}
+		$recipes = get_posts( [ 'numberposts' => - 1, 'fields' => 'ids', 'post_type' => 'recette' ] );
+		foreach ( $recipes as $recipe ) {
+			$options += [ get_permalink( $recipe ) => 'Recette : ' . get_the_title( $recipe ) ];
 		}
 		$pages = get_pages();
 		foreach ( $pages as $page ) {
@@ -24,6 +28,26 @@ function cr_attach_theme_options() {
 		$characteristics = get_terms( 'characteristic', [ 'fields' => 'ids' ] );
 		foreach ( $characteristics as $characteristic ) {
 			$options += [ get_category_link( $characteristic ) => 'Caractéristique : ' . get_term( $characteristic )->name ];
+		}
+
+		return $options;
+	};
+
+	$cr_generate_recipe_options = function (): array {
+		$options = [ '' => 'Veuillez choisir une option' ];
+		$recipes = get_posts( [ 'numberposts' => - 1, 'fields' => 'ids', 'post_type' => 'recette' ] );
+		foreach ( $recipes as $recipe ) {
+			$options += [ $recipe => get_the_title( $recipe ) ];
+		}
+
+		return $options;
+	};
+
+	$cr_generate_page_options = function (): array {
+		$options = [];
+		$pages = get_pages();
+		foreach ( $pages as $page ) {
+			$options += [ get_permalink( $page ) => get_the_title( $page ) ];
 		}
 
 		return $options;
@@ -58,7 +82,71 @@ function cr_attach_theme_options() {
 		              ->set_options( $cr_generate_options ),
 		         Field::make( 'text',
 			         'cr_fp_button_text',
-			         __( 'Le texte du bouton', 'cefimrecettes' ) )
+			         __( 'Le texte du bouton', 'cefimrecettes' ) ),
+		         Field::make( 'separator',
+			         'cr_popular_recipes_separator',
+			         __( 'Recettes populaires', 'cefimrecettes' ) ),
+		         Field::make( 'select',
+			         'cr_fp_recette_pop1',
+			         __( 'Recette populaire #1', 'cefimrecettes' ) )
+		              ->set_options( $cr_generate_recipe_options )
+		              ->set_width( 50 ),
+		         Field::make( 'select',
+			         'cr_fp_recette_pop2',
+			         __( 'Recette populaire #2', 'cefimrecettes' ) )
+		              ->set_options( $cr_generate_recipe_options )
+		              ->set_width( 50 ),
+		         Field::make( 'select',
+			         'cr_fp_recette_pop3',
+			         __( 'Recette populaire #3', 'cefimrecettes' ) )
+		              ->set_options( $cr_generate_recipe_options )
+		              ->set_width( 50 ),
+		         Field::make( 'select',
+			         'cr_fp_recette_pop4',
+			         __( 'Recette populaire #4', 'cefimrecettes' ) )
+		              ->set_options( $cr_generate_recipe_options )
+		              ->set_width( 50 ),
+		         Field::make( 'select',
+			         'cr_fp_recette_pop5',
+			         __( 'Recette populaire #5', 'cefimrecettes' ) )
+		              ->set_options( $cr_generate_recipe_options )
+		              ->set_width( 50 ),
+		         Field::make( 'select',
+			         'cr_fp_recette_pop6',
+			         __( 'Recette populaire #6', 'cefimrecettes' ) )
+		              ->set_options( $cr_generate_recipe_options )
+		              ->set_width( 50 ),
+		         Field::make( 'separator', 'cr_newsletter_separator', __( 'Newsletter', 'cefimrecettes' ) ),
+		         Field::make( 'text',
+			         'cr_fp_newsletter_title',
+			         __( 'Titre de la section de la newsletter', 'cefimrecettes' ) ),
+		         Field::make( 'textarea',
+			         'cr_fp_newsletter_message',
+			         __( 'Message de la section de la newsletter', 'cefimrecettes' ) ),
+		         Field::make( 'text',
+			         'cr_fp_newsletter_button_text',
+			         __( 'Le texte du bouton de la section de la newsletter', 'cefimrecettes' ) ),
+		         Field::make( 'text',
+			         'cr_fp_newsletter_url',
+			         __( 'L\'URL du bouton de la section de la newsletter', 'cefimrecettes' ) ),
+		         Field::make( 'separator', 'cr_whoami_separator', __( 'Qui je suis', 'cefimrecettes' ) ),
+		         Field::make( 'image',
+			         'cr_fp_whoami_image',
+			         __( 'Image', 'cefimrecettes' ) )
+			         ->set_required( true ),
+		         Field::make( 'text',
+			         'cr_fp_whoami_title',
+			         __( 'Titre', 'cefimrecettes' ) ),
+		         Field::make( 'textarea',
+			         'cr_fp_whoami_description',
+			         __( 'Description', 'cefimrecettes' ) ),
+		         Field::make( 'text',
+			         'cr_fp_whoami_button_text',
+			         __( 'Le texte du bouton', 'cefimrecettes' ) ),
+		         Field::make( 'select',
+			         'cr_fp_whoami_page_link',
+			         __( 'Page à propos', 'cefimrecettes' ) )
+		              ->set_options( $cr_generate_page_options )
 	         ] )
 	         ->add_tab( __( 'Liste des recettes', 'cefimrecettes' ), [
 		         Field::make( 'text',
@@ -132,7 +220,7 @@ function cr_add_recipe_data_fields() {
 		              ] )
 		              ->set_min( 1 )
 		              ->setup_labels( [
-			              'plural_name'   => 'Étapes de préparation',
+			              'plural_name' => 'Étapes de préparation',
 			              'singular_name' => 'Étape de préparation'
 		              ] )
 		              ->set_required( true )

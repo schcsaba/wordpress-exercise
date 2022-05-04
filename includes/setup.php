@@ -8,6 +8,8 @@ function cr_setup_theme() {
 	add_image_size( 'card-illustration', 320, 480, true );
 	add_image_size( 'post-header-img', 1020, 680, true );
 	add_image_size( 'recipe-illustration', 485, 600, true );
+	add_image_size( 'recipe-illustration-small', 485, 485, true );
+	add_image_size( 'who-am-i-illustration', 310, 440, true );
 
 	register_nav_menus( [
 		'main-nav'   => __( 'Navigation principale', 'cefimrecettes' ),
@@ -26,7 +28,7 @@ function cr_add_link_atts( $atts, $item ) {
 }
 
 function cr_change_category_list_classes( $thelist ) {
-	if ( is_home() || is_category() ) {
+	if ( is_home() || is_category() || is_front_page() ) {
 		$search  = [ 'post-categories', '<li>', '<a ' ];
 		$replace = [ 'card-terms-list', '<li class="card-terms-item">', '<a class="card-terms-link" ' ];
 		$thelist = str_replace( $search, $replace, $thelist );
