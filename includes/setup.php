@@ -62,3 +62,37 @@ function cr_set_posts_per_page( $query ) {
 
 	return $query;
 }
+
+function cr_cf7_filter( $output, $tag, $atts, $m ) {
+	if ( $tag === 'contact-form-7' ) {
+		$output = str_replace(
+			[
+				'<p>',
+				'</span></p>',
+				'wpcf7-submit" /></p>',
+				'<br />',
+				'<div class="form-group"><label for="msg">',
+				'<div class="form-group"><span class="wpcf7-form-control-wrap accept">',
+				'<div class="form-group"><input type="submit"',
+				'</small></label></p>',
+				'<input type="submit" value="Envoyer" class="wpcf7-form-control has-spinner wpcf7-submit" />',
+				'<div class="form-group"><small><em>'
+			],
+			[
+				'<div class="form-group">',
+				'</span></div>',
+				'wpcf7-submit" /></div>',
+				'',
+				'<div class="form-group full-width"><label for="msg">',
+				'<div class="form-group full-width accept"><span class="wpcf7-form-control-wrap acceptance">',
+				'<div class="form-group full-width submit"><input type="submit"',
+				'</small></label></div>',
+				'<button type="submit" class="wpcf7-form-control wpcf7-submit btn btn-secondary">Envoyer</button>',
+				'<p><small><em>'
+			],
+			$output
+		);
+	}
+
+	return $output;
+}

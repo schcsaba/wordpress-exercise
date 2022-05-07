@@ -22,3 +22,4 @@ add_action( 'pre_get_posts', 'cr_set_posts_per_page' );
 add_filter( 'nav_menu_link_attributes', 'cr_add_link_atts', 10, 2 );
 add_filter( 'the_category', 'cr_change_category_list_classes' );
 add_filter( 'allowed_block_types', 'cr_gutenberg_blocks', 11, 2 );
+add_filter('do_shortcode_tag', 'cr_cf7_filter', 10, 4);
