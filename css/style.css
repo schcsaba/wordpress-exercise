@@ -702,7 +702,7 @@ a.page-numbers:focus,
 	color: red;
 }
 
-.map iframe {
+.map > div {
 	width: 100%;
 	min-height: 60rem;
 	margin-bottom: 10rem;

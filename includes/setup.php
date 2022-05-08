@@ -42,7 +42,8 @@ function cr_gutenberg_blocks( $block_types, $post ) {
 		'core/paragraph',
 		'core/heading',
 		'core/list',
-		'core/image'
+		'core/image',
+		'carbon-fields/recette'
 	];
 	if ( $post->post_type == 'post' ) {
 		$allowed = $limited;
@@ -72,7 +73,7 @@ function cr_cf7_filter( $output, $tag, $atts, $m ) {
 				'wpcf7-submit" /></p>',
 				'<br />',
 				'<div class="form-group"><label for="msg">',
-				'<div class="form-group"><span class="wpcf7-form-control-wrap accept">',
+				'<div class="form-group"><span class="wpcf7-form-control-wrap acceptance">',
 				'<div class="form-group"><input type="submit"',
 				'</small></label></p>',
 				'<input type="submit" value="Envoyer" class="wpcf7-form-control has-spinner wpcf7-submit" />',
@@ -84,7 +85,7 @@ function cr_cf7_filter( $output, $tag, $atts, $m ) {
 				'wpcf7-submit" /></div>',
 				'',
 				'<div class="form-group full-width"><label for="msg">',
-				'<div class="form-group full-width accept"><span class="wpcf7-form-control-wrap acceptance">',
+				'<div class="form-group full-width acceptance"><span class="wpcf7-form-control-wrap acceptance">',
 				'<div class="form-group full-width submit"><input type="submit"',
 				'</small></label></div>',
 				'<button type="submit" class="wpcf7-form-control wpcf7-submit btn btn-secondary">Envoyer</button>',

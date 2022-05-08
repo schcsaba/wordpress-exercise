@@ -1,6 +1,7 @@
 <?php
 
 use Carbon_Fields\Container;
+use Carbon_Fields\Block;
 use Carbon_Fields\Field;
 
 function cr_attach_theme_options() {
@@ -45,7 +46,7 @@ function cr_attach_theme_options() {
 
 	$cr_generate_page_options = function (): array {
 		$options = [];
-		$pages = get_pages();
+		$pages   = get_pages();
 		foreach ( $pages as $page ) {
 			$options += [ get_permalink( $page ) => get_the_title( $page ) ];
 		}
@@ -133,7 +134,7 @@ function cr_attach_theme_options() {
 		         Field::make( 'image',
 			         'cr_fp_whoami_image',
 			         __( 'Image', 'cefimrecettes' ) )
-			         ->set_required( true ),
+		              ->set_required( true ),
 		         Field::make( 'text',
 			         'cr_fp_whoami_title',
 			         __( 'Titre', 'cefimrecettes' ) ),
@@ -152,6 +153,32 @@ function cr_attach_theme_options() {
 		         Field::make( 'text',
 			         'cr_recipes_title',
 			         __( 'Le titre de la page de la liste des recettes', 'cefimrecettes' ) )
+	         ] )
+	         ->add_tab( __( 'Page contact', 'cefimrecettes' ), [
+		         Field::make( 'text',
+			         'cr_contact_title',
+			         __( 'Le titre de la page contact', 'cefimrecettes' ) ),
+		         Field::make( 'rich_text',
+			         'cr_contact_content',
+			         __( 'Le contenu de la page contact', 'cefimrecettes' ) ),
+		         Field::make( 'complex', 'cr_workshop_markers', __( 'Marqueurs d\'ateliers', 'cefimrecettes' ) )
+		              ->add_fields( [
+			              Field::make( 'text', 'cr_workshop_name', __( 'Nom de l\'atelier', 'cefimrecettes' ) )
+			                   ->set_required( true ),
+			              Field::make( 'text', 'cr_workshop_address', __( 'Adresse de l\'atelier', 'cefimrecettes' ) )
+			                   ->set_required( true ),
+			              Field::make( 'text',
+				              'cr_workshop_tel',
+				              __( 'Numéro de téléphone de l\'atelier', 'cefimrecettes' ) )
+			                   ->set_attribute( 'type', 'tel' )
+			                   ->set_attribute( 'placeholder', '+33712345678' ),
+			              Field::make( 'text', 'cr_workshop_email', __( 'E-mail de l\'atelier', 'cefimrecettes' ) )
+			                   ->set_attribute( 'type', 'email' )
+			                   ->set_attribute( 'placeholder', 'info@mesrecettes.com' ),
+			              Field::make( 'text', 'cr_workshop_url', __( 'Url de l\'atelier', 'cefimrecettes' ) )
+			                   ->set_attribute( 'type', 'url' )
+			                   ->set_attribute( 'placeholder', 'https://www.mesrecettes.com' ),
+		              ] )
 	         ] )
 	         ->add_tab( __( 'Page 404', 'cefimrecettes' ), [
 		         Field::make( 'text',
@@ -234,4 +261,32 @@ function cr_add_recipe_data_fields() {
 		              ->set_max( 3 )
 		              ->setup_labels( [ 'plural_name' => 'Recettes liées', 'singular_name' => 'Recette liée' ] )
 	         ] );
+}
+
+function cr_select_recipe_block() {
+	Block::make( __( 'Recette', 'cefimrecettes' ) )
+	     ->add_fields( [
+		     Field::make( 'association', 'cr_block_recipe', __( 'Recette liée', 'cefimrecettes' ) )
+		          ->set_types( [ [ 'type' => 'post', 'post_type' => 'recette' ] ] )
+		          ->set_max( 1 )
+	     ] )
+	     ->set_icon( 'dashicons dashicons-carrot' )
+	     ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
+		     $recipe = get_post( $fields['cr_block_recipe'][0]['id'] );
+		     ?>
+             <h2>Recette liée</h2>
+             <div class="blog-grid">
+                 <article class="card">
+				     <?= wp_get_attachment_image( carbon_get_post_meta( $recipe->ID, 'cr_recipe_featured_image1' ),
+					     'card-illustration',
+					     false,
+					     [ 'class' => 'card-illustration' ] ) ?>
+                     <h3 class="card-title"><?=
+					     $recipe->post_title ?></h3>
+                     <a href="<?php
+				     echo get_the_permalink( $recipe->ID ) ?>" class="card-link">Voir la recette</a>
+                 </article>
+             </div>
+		     <?php
+	     } );
 }

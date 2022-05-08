@@ -154,7 +154,7 @@ get_header(); ?>
 									'cr_number_of_portions' ) < 2 ? '' : 's' ?></li>
                         </ul>
                         <a href="<?php
-						get_the_permalink( $recipe->ID ) ?>" class="card-link">Voir la recette</a>
+						echo get_the_permalink( $recipe->ID ) ?>" class="card-link">Voir la recette</a>
                     </article>
 				<?php
 				}
