@@ -263,6 +263,7 @@ function cr_add_recipe_data_fields() {
 	         ] );
 }
 
+// Créer un champ d'association pour lier les recettes aux articles.
 function cr_select_recipe_block() {
 	Block::make( __( 'Recette', 'cefimrecettes' ) )
 	     ->add_fields( [
